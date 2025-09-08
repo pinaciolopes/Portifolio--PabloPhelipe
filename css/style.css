@@ -76,18 +76,27 @@ li {
     margin-bottom: 1.5rem;
 }
 
+/* ===== Botão Ler Mais ===== */
 .toggle-btn {
     margin-top: 0.5rem;
-    padding: 0.3rem 0.6rem;
+    padding: 0.4rem 0.8rem;
     cursor: pointer;
     background-color: #800020;
     color: #fff;
     border: none;
-    border-radius: 3px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .toggle-btn:hover {
     background-color: #4b1d1d;
+    transform: scale(1.05);
+}
+
+.toggle-btn:active {
+    background-color: #33000a;
+    transform: scale(0.95);
 }
 
 /* Projetos */
@@ -115,15 +124,22 @@ li {
     color: #800020;
 }
 
-.card-projeto a {
+/* ===== Links dos projetos ===== */
+.link-projeto {
     display: inline-block;
     margin-top: 0.5rem;
-    color: #800020;
+    padding: 0.4rem 0.8rem;
+    background-color: #800020;
+    color: #fff;
     text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
 
-.card-projeto a:hover {
-    text-decoration: underline;
+.link-projeto:hover {
+    background-color: #4b1d1d;
+    transform: scale(1.05);
 }
 
 /* Redes sociais */
@@ -146,7 +162,7 @@ footer {
     color: #fff;
 }
 
-/* Modo escuro */
+/* ===== Modo escuro ===== */
 body.dark-mode {
     background-color: #4b1d1d;
     color: #f5d6d6;
@@ -170,12 +186,23 @@ body.dark-mode footer {
     background-color: #33000a;
 }
 
+/* Botão Ler Mais no modo escuro */
 body.dark-mode .toggle-btn {
     background-color: #f06292;
     color: #4b1d1d;
 }
 
 body.dark-mode .toggle-btn:hover {
+    background-color: #c2185b;
+}
+
+/* Links dos projetos no modo escuro */
+body.dark-mode .link-projeto {
+    background-color: #f06292;
+    color: #4b1d1d;
+}
+
+body.dark-mode .link-projeto:hover {
     background-color: #c2185b;
 }
 

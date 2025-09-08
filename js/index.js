@@ -1,14 +1,19 @@
-// Seleciona o botão pelo ID ou classe
-const toggleButton = document.getElementById('darkModeToggle');
+const toggleButton = document.getElementById("darkModeToggle");
 
-toggleButton.addEventListener('click', () => {
-    // Adiciona ou remove a classe dark-mode no body
-    document.body.classList.toggle('dark-mode');
+toggleButton.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    toggleButton.textContent = document.body.classList.contains("dark-mode") ? "Modo Claro" : "Modo Escuro";
+});
 
-    // Alterna o texto do botão
-    if (document.body.classList.contains('dark-mode')) {
-        toggleButton.textContent = 'Modo Claro';
-    } else {
-        toggleButton.textContent = 'Modo Escuro';
-    }
+document.querySelectorAll(".toggle-btn").forEach(btn => {
+    btn.addEventListener("click", function () {
+        const detalhes = this.parentElement.querySelector(".detalhes");
+        if (detalhes.style.display === "none" || detalhes.style.display === "") {
+            detalhes.style.display = "block";
+            this.textContent = "Ler menos";
+        } else {
+            detalhes.style.display = "none";
+            this.textContent = "Ler mais";
+        }
+    });
 });
