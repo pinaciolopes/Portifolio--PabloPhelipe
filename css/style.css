@@ -164,21 +164,21 @@ footer {
 
 /* ===== Modo escuro ===== */
 body.dark-mode {
-    background-color: #0000007d;
+    background-color: #1a1919f2;
     color: #f5d6d6;
 }
 
 body.dark-mode header {
-    background-color: #000000a0;
+    background-color: #800020;
 }
 
 body.dark-mode section h2,
 body.dark-mode .card-projeto h3 {
-    color: #f06292;
+    color: #800020;
 }
 
 body.dark-mode .card-projeto {
-    background-color: #660022;
+    background-color: #800020;
     box-shadow: 0 3px 6px rgba(0,0,0,0.6);
 }
 
@@ -188,7 +188,7 @@ body.dark-mode footer {
 
 /* Botão Ler Mais no modo escuro */
 body.dark-mode .toggle-btn {
-    background-color: #f06292;
+    background-color: #fff;
     color: #4b1d1d;
 }
 
@@ -198,7 +198,7 @@ body.dark-mode .toggle-btn:hover {
 
 /* Links dos projetos no modo escuro */
 body.dark-mode .link-projeto {
-    background-color: #f06292;
+    background-color: #fff;
     color: #4b1d1d;
 }
 
@@ -207,5 +207,5 @@ body.dark-mode .link-projeto:hover {
 }
 
 body.dark-mode a {
-    color: #f06292;
+    color: #fff;
 }
