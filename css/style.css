@@ -164,12 +164,12 @@ footer {
 
 /* ===== Modo escuro ===== */
 body.dark-mode {
-    background-color: #4b1d1d;
+    background-color: #0000007d;
     color: #f5d6d6;
 }
 
 body.dark-mode header {
-    background-color: #33000a;
+    background-color: #000000a0;
 }
 
 body.dark-mode section h2,
