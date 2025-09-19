@@ -1,7 +1,9 @@
 package com.javapablophelipe.cadastro_usuario.infrastructure.entitys;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
@@ -10,27 +12,19 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name="usuario")
-@Entity
-
+@Document(collection = "usuarios") // Define a coleção no Mongo
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id; // Mongo usa String/ObjectId como ID
 
-    @Column(name = "nome")
     private String nome;
 
-    @Column(name = "cpf", unique = true)
+    @Indexed(unique = true) // garante que o CPF seja único
     private String cpf;
 
-    @Column(name= "email")
     private String email;
-
-    @Column(name = "dataNascimento")
     private LocalDate dataNascimento;
-
-    @Column(name= "telefone")
     private String telefone;
 }
+

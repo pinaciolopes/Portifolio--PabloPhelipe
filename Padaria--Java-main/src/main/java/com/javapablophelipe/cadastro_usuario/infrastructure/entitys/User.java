@@ -1,11 +1,12 @@
 package com.javapablophelipe.cadastro_usuario.infrastructure.entitys;
 
 import com.javapablophelipe.cadastro_usuario.role.UserRole;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,27 +18,22 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "users")
+@Document(collection = "users") // coleção no Mongo
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id; // Mongo usa String para o _id
 
     private String username;
-
     private String password;
-
-    @Enumerated(EnumType.STRING)
     private UserRole role;
+    private boolean enabled = true;
 
-    private boolean enabled;
-
-    public User (String username, String password, UserRole role) {
+    public User(String username, String password, UserRole role) {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.enabled = true;
     }
 
     @Override
@@ -57,3 +53,4 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() { return enabled; }
 }
+

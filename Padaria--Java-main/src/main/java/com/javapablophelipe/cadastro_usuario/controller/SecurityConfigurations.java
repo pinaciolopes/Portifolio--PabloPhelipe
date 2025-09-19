@@ -1,6 +1,8 @@
 package com.javapablophelipe.cadastro_usuario.controller;
 
 import com.javapablophelipe.cadastro_usuario.infrastructure.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,58 +13,31 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfigurations {
 
     private final UserRepository repository;
 
-    public SecurityConfigurations(UserRepository repository) {
-        this.repository = repository;
-    }
-
-    // Encoder para senhas
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Gerenciador de autenticação
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 
-    // Configurações de segurança
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
         http
-                // ⚠️ Desabilite CSRF só se for API REST (senão, remova essa linha em produção)
                 .csrf(csrf -> csrf.disable())
-
-                // Regras de autorização
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/index", "/home").permitAll() // páginas públicas
-                        .requestMatchers("/auth/**").permitAll()             // endpoints de auth
-                        .requestMatchers("/usuario/**").permitAll()          // cadastro de usuário
-                        .requestMatchers("/h2-console/**").permitAll()       // H2 console
-                        .anyRequest().authenticated()                        // resto exige login
+                        .requestMatchers("/auth/**").permitAll()  // registro e login
+                        .requestMatchers("/usuario/**").permitAll()
+                        .anyRequest().authenticated()
                 )
-
-                // Permitir o uso do H2-console
-                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
-
-                // Configuração do login
-                .formLogin(form -> form
-                        .loginPage("/auth/login")            // página de login customizada
-                        .defaultSuccessUrl("/home", true)    // redireciona após login
-                        .permitAll()
-                )
-
-                // Configuração do logout
-                .logout(logout -> logout
-                        .logoutUrl("/auth/logout")
-                        .logoutSuccessUrl("/")               // volta pra página inicial
-                        .permitAll()
-                );
+                .httpBasic(); // usa Basic Auth para testes REST (ou JWT depois)
 
         return http.build();
     }

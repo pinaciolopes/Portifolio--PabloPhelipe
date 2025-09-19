@@ -15,20 +15,19 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-
 public class CompraService {
-
-    private Double calcularValorTotal(List<Padaria> produtos) {
-        return produtos.stream()
-                .mapToDouble(Padaria::getPreco) // assumindo que Padaria tem um método getPreco()
-                .sum();
-    }
 
     private final CompraRepository compraRepository;
     private final UsuarioRepository usuarioRepository;
     private final PadariaRepository padariaRepository;
 
-    public Compra criarCompraComDTO(CompraRequestDTO dto){
+    private Double calcularValorTotal(List<Padaria> produtos) {
+        return produtos.stream()
+                .mapToDouble(Padaria::getPreco) // assumindo que Padaria tem getPreco()
+                .sum();
+    }
+
+    public Compra criarCompraComDTO(CompraRequestDTO dto) {
         Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
@@ -41,8 +40,6 @@ public class CompraService {
                 .valorTotal(calcularValorTotal(produtos))
                 .build();
 
-        return compraRepository.save(compra);
+        return compraRepository.save(compra); // no Mongo já persiste direto
     }
-
-
 }

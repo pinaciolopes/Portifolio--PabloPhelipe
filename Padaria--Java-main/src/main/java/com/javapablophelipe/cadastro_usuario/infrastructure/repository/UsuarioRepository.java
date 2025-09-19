@@ -1,17 +1,11 @@
 package com.javapablophelipe.cadastro_usuario.infrastructure.repository;
 
-
-
 import com.javapablophelipe.cadastro_usuario.infrastructure.entitys.Usuario;
-import jakarta.transaction.Transactional;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-
-    Optional<Usuario> findByCpf(String cpf);
-    @Transactional
-    void deleteByCpf(String cpf);
+public interface UsuarioRepository extends MongoRepository<Usuario, String> {
+    Optional<Usuario> findByCpf(String cpf); // retorna Optional
+    void deleteByCpf(String cpf);           // já funciona sem @Transactional
 }

@@ -10,28 +10,29 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/padaria")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:63342")
-
 public class PadariaController {
 
     private final PadariaService padariaService;
 
     @PostMapping
-    public ResponseEntity <Void> cadastrarProduto (@RequestBody Padaria padaria) {
+    public ResponseEntity<Void> cadastrarProduto(@RequestBody Padaria padaria) {
         padariaService.cadastrarProduto(padaria);
         return ResponseEntity.ok().build();
     }
-    @GetMapping
-    public ResponseEntity<Padaria> buscarProdutoPorId (@RequestParam Long id) {
-        return ResponseEntity.ok(padariaService.buscarProdutoPorId(id));
 
+    @GetMapping
+    public ResponseEntity<Padaria> buscarProdutoPorId(@RequestParam String id) {
+        return ResponseEntity.ok(padariaService.buscarProdutoPorId(id));
     }
+
     @DeleteMapping
-    public ResponseEntity<Void> deletarProdutoPorId (@RequestParam Long id) {
+    public ResponseEntity<Void> deletarProdutoPorId(@RequestParam String id) {
         padariaService.deletarProdutoPorId(id);
         return ResponseEntity.ok().build();
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Void> atualizarPadaria (@RequestParam Long id, @RequestBody Padaria padaria) {
+    public ResponseEntity<Void> atualizarPadaria(@PathVariable String id, @RequestBody Padaria padaria) {
         padariaService.atualizarProdutoPorId(id, padaria);
         return ResponseEntity.ok().build();
     }

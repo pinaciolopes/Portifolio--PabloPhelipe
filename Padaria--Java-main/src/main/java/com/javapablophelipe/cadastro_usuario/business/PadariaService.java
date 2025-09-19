@@ -14,30 +14,30 @@ public class PadariaService {
     }
 
     public void cadastrarProduto(Padaria padaria) {
-        repository.saveAndFlush(padaria);
+        repository.save(padaria); // Mongo salva direto
     }
 
-    public Padaria buscarProdutoPorId(Long id) {
+    public Padaria buscarProdutoPorId(String id) {
         return repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Produto nao encontrado")
+                () -> new RuntimeException("Produto não encontrado")
         );
     }
 
-    public void deletarProdutoPorId(Long id) {
+    public void deletarProdutoPorId(String id) {
         repository.deleteById(id);
     }
 
-    public void atualizarProdutoPorId(Long id, Padaria padaria) {
+    public void atualizarProdutoPorId(String id, Padaria padaria) {
         Padaria padariaEntity = repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Produto nao encontrado")
+                () -> new RuntimeException("Produto não encontrado")
         );
+
         Padaria produtoAtualizado = Padaria.builder()
-                .id(padaria.getId() != null ? padaria.getId() :
-                        padariaEntity.getId())
-                .nome(padaria.getNome() != null ? padaria.getNome() :
-                        padariaEntity.getNome())
-                .preco(padaria.getPreco() != null ? padaria.getPreco() :
-                        padariaEntity.getPreco()).build();
-        repository.saveAndFlush(produtoAtualizado);
+                .id(padariaEntity.getId()) // mantém o mesmo id do Mongo
+                .nome(padaria.getNome() != null ? padaria.getNome() : padariaEntity.getNome())
+                .preco(padaria.getPreco() != null ? padaria.getPreco() : padariaEntity.getPreco())
+                .build();
+
+        repository.save(produtoAtualizado); // substitui saveAndFlush
     }
 }

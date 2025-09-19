@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.View;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -14,14 +13,8 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private final View error;
-
-    public GlobalExceptionHandler(View error) {
-        this.error = error;
-    }
-
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> HandleGenericException(Exception ex){
+    public ResponseEntity<Object> handleGenericException(Exception ex){
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -31,16 +24,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler
-    public ResponseEntity<Object> HandleValidationException(MethodArgumentNotValidException ex){
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException ex){
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.BAD_REQUEST.value());
         body.put("error", "Erro de validação");
 
         Map<String, String> fieldErrors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-                fieldErrors.put(error.getField(), error.getDefaultMessage()));
+        ex.getBindingResult().getFieldErrors()
+                .forEach(error -> fieldErrors.put(error.getField(), error.getDefaultMessage()));
 
         body.put("fieldErrors", fieldErrors);
 
@@ -48,7 +41,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Object> HandleResourceNotFound(ResourceNotFoundException ex){
+    public ResponseEntity<Object> handleResourceNotFound(ResourceNotFoundException ex){
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.NOT_FOUND.value());

@@ -1,15 +1,8 @@
 package com.javapablophelipe.cadastro_usuario.infrastructure.repository;
 
 import com.javapablophelipe.cadastro_usuario.infrastructure.entitys.Padaria;
-import jakarta.transaction.Transactional;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface PadariaRepository extends JpaRepository<Padaria, Long> {
-    Optional<Padaria> findById(Long id);
-    @Transactional
-    void deleteById(Long id);
-
+public interface PadariaRepository extends MongoRepository<Padaria, String> {
+    // findById e deleteById já existem no MongoRepository
 }

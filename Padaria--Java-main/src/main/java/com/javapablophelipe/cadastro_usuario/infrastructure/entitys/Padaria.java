@@ -1,26 +1,21 @@
 package com.javapablophelipe.cadastro_usuario.infrastructure.entitys;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@Entity
-@Table(name = "padaria")
-
+@Document(collection = "padaria") // Nome da coleção no MongoDB
 public class Padaria {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    private String id; // Mongo usa String para o ObjectId
 
-    @Column(name = "nome")
     private String nome;
-
-    @Column(name = "preco")
     private Double preco;
-
 }
+

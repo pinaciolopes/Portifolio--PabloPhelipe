@@ -6,6 +6,9 @@ import com.javapablophelipe.cadastro_usuario.role.UserRole;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 @Service
 public class AuthorizationService {
 
@@ -16,26 +19,29 @@ public class AuthorizationService {
     }
 
     public boolean userExists(String login) {
-        return repository.findByUsername(login) != null;
+        return repository.findByUsername(login).isPresent(); // agora com Optional
     }
 
     public void registerUser(String login, String password, String roleStr) {
         if (userExists(login)) {
-            throw  new RuntimeException("Login já existe");
+            throw new RuntimeException("Login já existe");
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(password);
+
         UserRole roleEnum;
-        try{
-            roleEnum = UserRole.valueOf(roleStr);
-        }catch (IllegalArgumentException e){
-            throw new RuntimeException("Role invalido! Use ADMIN ou USER");
+        try {
+            roleEnum = UserRole.valueOf(roleStr.toUpperCase()); // força maiúsculo
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Role inválida! Use ADMIN ou USER");
         }
+
         User newUser = new User(login, encryptedPassword, roleEnum);
-            repository.save(newUser);
-    }
-    public User findByUsername(String username) {
-        return repository.findByUsername(username);
+        repository.save(newUser);
     }
 
+    public User findByUsername(String username) {
+        return repository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
 }
